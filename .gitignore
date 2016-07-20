@@ -1,0 +1,12 @@
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/dogs.yml
+/monitor.log
+/gmail.yml

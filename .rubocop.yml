@@ -1,0 +1,21 @@
+AllCops:
+  TargetRubyVersion: 2.1
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 20
+
+Lint/UnusedMethodArgument:
+  AutoCorrect: false
+
+Style/EndOfLine:
+  AutoCorrect: true
+
+Style/CaseIndentation:
+  IndentOneStep: true
+  AutoCorrect: true
+
+EndOfLine:
+  Enabled: false
