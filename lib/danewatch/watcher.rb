@@ -84,20 +84,38 @@ module DaneWatch
       end
     end
 
+    MAX_SOCKET_RETRIES = 3
+    RETRY_WAIT = 10 # seconds
+
+    def self.give_up(exception)
+      Log.error "#{exception}: Giving up for now..."
+    end
+
     # Compare current listings against cached ones and see if anything has changed
     def self.check_for_updates
-      latest_dogs = available_dogs
+      num_retries = 0
 
-      # Load last results
       begin
+        latest_dogs = available_dogs
+
+        # Load last results
         previous_dogs = load_dogs
       rescue Errno::ENOENT
         # First run presumably, save list and return
         save_dogs latest_dogs
         return
+      rescue SocketError => e
+        num_retries += 1
+        if num_retries <= MAX_SOCKET_RETRIES
+          sleep RETRY_WAIT
+          Log.error "#{e}: Retrying in #{RETRY_WAIT} seconds..."
+          retry
+        end
+        give_up e
+        return
       rescue StandardError => e
         # Some other error happened, bail out
-        Log.error e
+        give_up e
         return
       end
 
